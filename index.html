@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <style type="text/css">
+        .item {
+            width: 150px;
+            height: 150px;
+            background-size:100% 100%;
+            background-repeat: no-repeat;
+            margin-top: 20px;
+            margin-left: 20px;
+        }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            height: 200px;
+            width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .box {
+            display:none;
+            background-image:url(https://avatars.mds.yandex.net/get-zen_doc/1862846/pub_5d6924ec4735a600adbdc6e3_5d692508bd45c000ad8ca89c/scale_1200);
+            background-size:100% 100%;
+            height:955px;
+        }
+        .box1 {
+            display:none;
+            background-image: url(https://starsity.ru/wp-content/uploads/2020/08/28081305.jpg);
+            background-size:100% 100%;
+            height:955px;
+
+        }
+        .fon{
+            height:925px;
+            background-image:url(https://catherineasquithgallery.com/uploads/posts/2021-02/1613649956_32-p-fon-dlya-prezentatsii-18-vek-34.jpg);
+            background-size:100% 100%;
+        }
+    </style>
+</head>
+<body>
+<div class = "fon">
+    <h1 class = "text"> Осталось времени: <span class = "date"> 8 </span> </h1>
+    <div class="row">
+    </div>
+</div>
+<div class = "box1">
+</div>
+<div class = "box">
+</div>
+    <script type="text/javascript">
+    let score = 0;
+    let time = 8;
+    let text = document.querySelector(".text")
+    let date = document.querySelector(".date")
+    let fon = document.querySelector(".fon")
+    let row = document.querySelector(".row");
+    let images = ["1.png", "2.png", "3.png", "4.png", "5.png", "6.png", "1.png", "2.png", "3.png", "4.png", "5.png", "6.png"];
+    let past_item = null
+        for (let i = 0; i < 12; i = i + 1){
+            let box = document.createElement("div")
+            row.appendChild(box)
+            box.classList.add("item")
+            let index = random(images.length - 1)
+            box.style.backgroundImage = "url("+ images[index] + ")"
+            box.type_image = images[index]
+
+            images.splice(index, 1)
+
+            box.onclick = function(){
+                let text = document.querySelector(".text")
+                let date = document.querySelector(".date")
+                if(past_item == null){
+                   past_item = box 
+                }
+                else if(box.type_image == past_item.type_image){
+                    box.style.display = "none"
+                    past_item.style.display = "none"
+                    past_item = null
+                    score = score + 1
+                    if(score == 6){
+                        alert("Победа!")
+                        fon.style.display = "none"
+                        document.querySelector(".box").style.display = "block"
+                        function clear(){
+                            clearTimeout(time)
+                        }
+                    }
+                }
+
+                else if(box.type_image != past_item.type_image){
+                    past_item = null
+                    score = score + 0
+                }
+            }
+            function finish(){
+                if(score != 6){
+                    row.style.display = "none"
+                    document.querySelector(".box1").style.display = "block"
+                    text.style.display = "none"
+                    date.style.display = "none"
+                    alert("Крупное поражение")
+                }
+            }
+            let time = setTimeout(finish, 8000)
+        }
+        function random(number){
+            let num = Math.random() * number
+            let num1 = Math.round(num)
+            return num1
+        }
+        let int4;
+        function counts(){
+            time = time - 1
+            date.innerHTML = time;
+        }
+        int4 = setInterval(counts,1000)
+    </script>
+</body>
+</html>
